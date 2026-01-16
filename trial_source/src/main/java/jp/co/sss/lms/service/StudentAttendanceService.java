@@ -333,5 +333,22 @@ public class StudentAttendanceService {
 		// 完了メッセージ
 		return messageUtil.getMessage(Constants.PROP_KEY_ATTENDANCE_UPDATE_NOTICE);
 	}
+	
+	/**
+	 * 勤怠未入力日チェック
+	 * @author 濱田紘苗子 - Task.25
+	 * @param lmsUserId
+	 * @return
+	 * @throws ParseException
+	 */
+	public boolean notEnterCheck(Integer lmsUserId) throws ParseException{
+		
+		Date trainingDate = new Date();
+		
+		Integer notEnterCount = tStudentAttendanceMapper.notEnterCount(lmsUserId, Constants.DB_FLG_FALSE, trainingDate);
+		
+		//過去日で勤怠が未入力の日が1件以上あればtrueを返す
+		return notEnterCount > 0;
+	}
 
 }
