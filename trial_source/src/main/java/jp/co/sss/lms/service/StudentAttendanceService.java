@@ -1,6 +1,7 @@
 package jp.co.sss.lms.service;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -344,8 +345,10 @@ public class StudentAttendanceService {
 	public boolean notEnterCheck(Integer lmsUserId) throws ParseException{
 		
 		Date trainingDate = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		String trainingDateStr = sdf.format(trainingDate);
 		
-		Integer notEnterCount = tStudentAttendanceMapper.notEnterCount(lmsUserId, Constants.DB_FLG_FALSE, trainingDate);
+		Integer notEnterCount = tStudentAttendanceMapper.notEnterCount(lmsUserId, Constants.DB_FLG_FALSE, trainingDateStr);
 		
 		//過去日で勤怠が未入力の日が1件以上あればtrueを返す
 		return notEnterCount > 0;
