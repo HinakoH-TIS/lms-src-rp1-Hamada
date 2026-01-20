@@ -146,5 +146,76 @@ public class AttendanceUtil {
 		}
 		return false;
 	}
+	
+	/**
+	 * 時間マップ作成
+	 * @author 濱田紘苗子 - Task.26
+	 * @return 時間のプルダウン用マップ
+	 */
+	public LinkedHashMap<Integer, String> getHourMap(){
+		LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
+		map.put(null, "");
+		
+		//00時から23時までをmapにいれる
+		for (int i = 0; i < 24; i++) {
+			map.put(i, String.format("%02d", i));
+		}
+		return map;
+	}
+	
+	/**
+	 * 分マップ作成
+	 * @author 濱田紘苗子 - Task.26
+	 * @return 分のプルダウン用マップ
+	 */
+	public LinkedHashMap<Integer, String> getMinuteMap(){
+		LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
+		map.put(null, "");
+		
+		//00分から59分までをmapにいれる
+		for (int i = 0; i < 60; i++) {
+			map.put(i, String.format("%02d", i));
+		}
+		return map;
+	}
+	
+	/**
+	 * 時刻から時間だけを切り出す
+	 * @author 濱田紘苗子 - Task.26
+	 * @param time 出勤/退勤時刻
+	 * @return 時間だけを切り取ったもの
+	 */
+	public Integer getHour(String time) {
+		
+		Integer hour;
+		
+		if (time == null || time.isEmpty()) {
+			hour = null;
+		}else {
+			hour = Integer.parseInt(time.substring(0, 2));
+		}
+		
+		return hour;
+		
+	}
+	
+	/**
+	 * 時刻から分だけを切り出す
+	 * @author 濱田紘苗子 - Task.26
+	 * @param time 出勤/退勤時刻
+	 * @return 分だけを切り取ったもの
+	 */
+	public Integer getMinute(String time) {
+		
+		Integer minute;
+		
+		if (time == null || time.isEmpty()) {
+			minute = null;
+		}else {
+			minute = Integer.parseInt(time.substring(3, 5));
+		}
+		return minute;
+		
+	}
 
 }
