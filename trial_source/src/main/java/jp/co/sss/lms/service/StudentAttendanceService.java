@@ -308,9 +308,6 @@ public class StudentAttendanceService {
 			// 出勤時刻整形
 			TrainingTime trainingStartTime = null;
 			
-			//濱田紘苗子 - Task.26
-			formatConversion(attendanceForm);
-			
 			trainingStartTime = new TrainingTime(dailyAttendanceForm.getTrainingStartTime());
 			tStudentAttendance.setTrainingStartTime(trainingStartTime.getFormattedString());
 			
@@ -393,7 +390,7 @@ public class StudentAttendanceService {
 			}
 			
 			if (trainingEndTimeHour != null && trainingEndTimeMinute != null) {
-				dailyAttendanceForm.setTrainingStartTime(trainingEndTimeHour + ":" + trainingEndTimeMinute);
+				dailyAttendanceForm.setTrainingEndTime(trainingEndTimeHour + ":" + trainingEndTimeMinute);
 			}
 		}
 		
