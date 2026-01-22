@@ -284,6 +284,9 @@ public class StudentAttendanceService {
 		// 現在の勤怠情報（受講生入力）リストを取得
 		List<TStudentAttendance> tStudentAttendanceList = tStudentAttendanceMapper
 				.findByLmsUserId(lmsUserId, Constants.DB_FLG_FALSE);
+		
+		//濱田紘苗子 - Task.26
+		formatConversion(attendanceForm);
 
 		// 入力された情報を更新用のエンティティに移し替え
 		Date date = new Date();
@@ -313,9 +316,6 @@ public class StudentAttendanceService {
 			
 			// 退勤時刻整形
 			TrainingTime trainingEndTime = null;
-			
-			//濱田紘苗子 - Task.26
-			formatConversion(attendanceForm);
 			
 			trainingEndTime = new TrainingTime(dailyAttendanceForm.getTrainingEndTime());
 			tStudentAttendance.setTrainingEndTime(trainingEndTime.getFormattedString());
