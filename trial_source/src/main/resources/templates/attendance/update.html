@@ -51,7 +51,7 @@
 								
 								<!-- 濱田紘苗子 - Task.28 -->
 								<td class="w60">
-									<input type="button" class="btn btn-success" value="定時">
+									<input th:data-id="${stat.index}" onclick="regularTime(this)" type="button" class="btn btn-success" value="定時">
 								</td>
 								
 								<!-- 濱田紘苗子 - Task.26 -->
@@ -123,6 +123,26 @@
 			</form>
 		</div>
 	</div>
-
+	
+	<!-- 濱田紘苗子 - Task.28 -->
+	<script type="text/javascript" th:inline="javascript">
+		
+		function regularTime(button){
+			const id = button.dataset.id;
+			
+			let trainingStartTimeHour = document.getElementsByName("attendanceList[" + id + "].trainingStartTimeHour");
+			trainingStartTimeHour[0].selectedIndex = 10;
+			
+			let trainingStartTimeMinute = document.getElementsByName("attendanceList[" + id + "].trainingStartTimeMinute");
+			trainingStartTimeMinute[0].selectedIndex = 1;
+			
+			let trainingEndTimeHour = document.getElementsByName("attendanceList[" + id + "].trainingEndTimeHour");
+			trainingEndTimeHour[0].selectedIndex = 19;
+			
+			let trainingEndTimeMinute = document.getElementsByName("attendanceList[" + id + "].trainingEndTimeMinute");
+			trainingEndTimeMinute[0].selectedIndex = 1;
+		}
+		
+	</script>
 </body>
 </html>
