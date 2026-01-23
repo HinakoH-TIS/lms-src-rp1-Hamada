@@ -48,7 +48,7 @@ public class AttendanceController {
 		model.addAttribute("attendanceManagementDtoList", attendanceManagementDtoList);
 
 		//濱田紘苗子 - Task.25
-		model.addAttribute("hasNotEntered", studentAttendanceService.notEnterCheck(loginUserDto.getLmsUserId()));
+		model.addAttribute("hasNotEntered", studentAttendanceService.notEnterCheck());
 
 		return "attendance/detail";
 	}
