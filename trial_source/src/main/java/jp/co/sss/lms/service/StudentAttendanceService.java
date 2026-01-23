@@ -358,13 +358,12 @@ public class StudentAttendanceService {
 	 * @return 未入力日が1件以上あればtrue、なければfalse
 	 * @throws ParseException
 	 */
-	public boolean notEnterCheck(Integer lmsUserId) throws ParseException{
+	public boolean notEnterCheck() throws ParseException{
 		
-		//Dateで生成した日時の日付け部分のみを残す
-		String trainingDateStr = dateUtil.dateToString(new Date(), Constants.DEFAULT_DATE_FORMAT);
-		Date trainingDate = dateUtil.stringToSqlDate(trainingDateStr);
+		//Dateで生成した日時の日付け部分のみにする
+		Date trainingDate = attendanceUtil.getTrainingDate();
 		
-		Integer notEnterCount = tStudentAttendanceMapper.notEnterCount(lmsUserId, Constants.DB_FLG_FALSE, trainingDate);
+		Integer notEnterCount = tStudentAttendanceMapper.notEnterCount(loginUserDto.getLmsUserId(), Constants.DB_FLG_FALSE, trainingDate);
 		
 		//過去日で勤怠が未入力の日が1件以上あればtrueを返す
 		return notEnterCount > 0;
