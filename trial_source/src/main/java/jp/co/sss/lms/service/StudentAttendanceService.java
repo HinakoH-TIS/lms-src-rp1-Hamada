@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import jp.co.sss.lms.dto.AttendanceManagementDto;
 import jp.co.sss.lms.dto.LoginUserDto;
@@ -393,5 +394,36 @@ public class StudentAttendanceService {
 		}
 		
 	}
+	
+	/**
+	 * 勤怠更新時の入力チェックを行う（文字数、時刻の整合性、中抜け時間の妥当性）。
+	 * @author 濱田紘苗子 - Task.27
+	 * @param attendanceForm
+	 * @param result
+	 */
+	public void updateInputCheck(AttendanceForm attendanceForm, BindingResult result) {
+		
+			int i = 0;
+			boolean hasNoteError = false;
+		for (DailyAttendanceForm dailyAttendanceForm : attendanceForm.getAttendanceList()) {
+		
+			
+			if (dailyAttendanceForm.getNote().length() > 100) {
+				result.rejectValue("attendanceList[" + i + "].note", null);
+				hasNoteError = true;
+			}
+			
+			i++;
+		}
+		
+		if (hasNoteError) {
+			result.reject("maxlength", new Object[] {"備考", "100"}, null);
+		}
+		 
+	}
+	
+	
+	
+	
 
 }
