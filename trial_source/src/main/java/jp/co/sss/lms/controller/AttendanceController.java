@@ -140,8 +140,8 @@ public class AttendanceController {
 	public String complete(AttendanceForm attendanceForm, BindingResult result, Model model)
 			throws ParseException {
 		
+		//濱田紘苗子 - Task.27
 		studentAttendanceService.updateInputCheck(attendanceForm, result);
-		
 		if (result.hasErrors()) {
 
 			attendanceForm.setBlankTimes(attendanceUtil.setBlankTime());
