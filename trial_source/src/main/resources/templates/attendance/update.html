@@ -17,11 +17,13 @@
 			<h2><small>途中退校日：${dispLeaveDate}</small></h2>
 		</th:block>
 	</th:block>
-	    <ul th:object="${attendanceForm}" style="padding-left:0;list-style:none;">
-	        <li th:each="error : ${#fields.globalErrors()}">
-	           <span class="help-inline error">*&nbsp;[[${error}]]</span>
-	        </li>
-    	</ul>
+	
+	<!-- 濱田紘苗子 - Task.27 -->
+	<ul th:object="${attendanceForm}" style="padding-left:0;list-style:none;">
+	    <li th:each="error : ${#fields.globalErrors()}">
+	         <span class="help-inline error">*&nbsp;[[${error}]]</span>
+	    </li>
+    </ul>
 
 	<div class="row">
 		<div class="bs-component col-sm-12">
