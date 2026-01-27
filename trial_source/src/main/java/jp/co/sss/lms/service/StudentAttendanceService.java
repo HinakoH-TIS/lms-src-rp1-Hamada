@@ -405,6 +405,9 @@ public class StudentAttendanceService {
 		
 			int i = 0;
 			boolean hasNoteError = false;
+			boolean hasStartTimeError = false;
+			boolean hasEndTimeError = false;
+			boolean hasPunchInEmptyError = false;
 		for (DailyAttendanceForm dailyAttendanceForm : attendanceForm.getAttendanceList()) {
 		
 			
@@ -413,17 +416,56 @@ public class StudentAttendanceService {
 				hasNoteError = true;
 			}
 			
+			if (dailyAttendanceForm.getTrainingStartTimeHour() == null && dailyAttendanceForm.getTrainingStartTimeMinute() != null) {
+				result.rejectValue("attendanceList[" + i + "].trainingStartTimeHour", null);
+				hasStartTimeError = true;
+			}
+			
+			if (dailyAttendanceForm.getTrainingStartTimeHour() != null && dailyAttendanceForm.getTrainingStartTimeMinute() == null) {
+				result.rejectValue("attendanceList[" + i + "].trainingStartTimeMinute", null);
+				hasStartTimeError = true;
+			}
+			
+			if (dailyAttendanceForm.getTrainingEndTimeHour() == null && dailyAttendanceForm.getTrainingEndTimeMinute() != null) {
+				result.rejectValue("attendanceList[" + i + "].trainingEndTimeHour", null);
+				hasEndTimeError = true;
+			}
+			
+			if (dailyAttendanceForm.getTrainingEndTimeHour() != null && dailyAttendanceForm.getTrainingEndTimeMinute() == null) {
+				result.rejectValue("attendanceList[" + i + "].trainingEndTimeMinute", null);
+				hasEndTimeError = true;
+			}
+			
+			if (!hasStartTimeError && !hasEndTimeError) {
+				
+				if (dailyAttendanceForm.getTrainingStartTimeHour() == null && dailyAttendanceForm.getTrainingEndTimeHour() != null) {
+					result.rejectValue("attendanceList[" + i + "].trainingStartTimeHour", null);
+					result.rejectValue("attendanceList[" + i + "].trainingStartTimeMinute", null);
+					hasPunchInEmptyError = true;
+				}
+				
+			}
+			
 			i++;
 		}
 		
+		
 		if (hasNoteError) {
-			result.reject("maxlength", new Object[] {"備考", "100"}, null);
+			result.reject(Constants.VALID_KEY_MAXLENGTH, new Object[] {"備考", "100"}, null);
+		}
+		
+		if (hasStartTimeError) {
+			result.reject(Constants.INPUT_INVALID, new Object[] {"出勤時間"}, null);
+		}
+		
+		if (hasEndTimeError) {
+			result.reject(Constants.INPUT_INVALID, new Object[] {"退勤時間"}, null);
+		}
+		
+		if (hasPunchInEmptyError) {
+			result.reject(Constants.VALID_KEY_ATTENDANCE_PUNCHINEMPTY);
 		}
 		 
 	}
-	
-	
-	
-	
 
 }
