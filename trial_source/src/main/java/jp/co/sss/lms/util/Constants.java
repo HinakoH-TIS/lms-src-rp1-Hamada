@@ -362,5 +362,14 @@ public interface Constants {
 	/** 管理者フラグ */
 	public static final Short ADMIN_FLG_FALSE = 0;
 	public static final Short ADMIN_FLG_TRUE = 1;
-
+	
+	/** 
+	 * @author 濱田紘苗子  – Task.27
+	 * 入力チェック
+	 */
+	public static final String PUNCH_IN_TIME = "出勤時間";
+	public static final String PUNCH_OUT_TIME = "退勤時間";
+	public static final String NOTE = "備考";
+	public static final String NOTE_MAX_CHECK = "100";
+	
 }

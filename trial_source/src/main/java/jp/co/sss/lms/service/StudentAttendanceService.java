@@ -501,15 +501,15 @@ public class StudentAttendanceService {
 		}
 
 		if (hasNoteError){
-			result.reject(Constants.VALID_KEY_MAXLENGTH, new Object[] { "備考", "100" }, null);
+			result.reject(Constants.VALID_KEY_MAXLENGTH, new Object[] { Constants.NOTE, Constants.NOTE_MAX_CHECK }, null);
 		}
 
 		if (hasStartTimeError) {
-			result.reject(Constants.INPUT_INVALID, new Object[] { "出勤時間" }, null);
+			result.reject(Constants.INPUT_INVALID, new Object[] { Constants.PUNCH_IN_TIME }, null);
 		}
 
 		if (hasEndTimeError) {
-			result.reject(Constants.INPUT_INVALID, new Object[] { "退勤時間" }, null);
+			result.reject(Constants.INPUT_INVALID, new Object[] { Constants.PUNCH_OUT_TIME }, null);
 		}
 
 		if (hasPunchInEmptyError) {
