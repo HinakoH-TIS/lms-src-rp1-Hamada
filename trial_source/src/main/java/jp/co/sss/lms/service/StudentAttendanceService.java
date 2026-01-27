@@ -408,7 +408,10 @@ public class StudentAttendanceService {
 	 */
 	public void updateInputCheck(AttendanceForm attendanceForm, BindingResult result) {
 
+		//勤怠情報リストの添え字を利用するための数字
 		int i = 0;
+		
+		//グローバルーエラーを加えるかどうかを示すフラグ
 		boolean hasNoteError = false;
 		boolean hasStartTimeError = false;
 		boolean hasEndTimeError = false;
@@ -424,46 +427,53 @@ public class StudentAttendanceService {
 			trainingEndTime.setHour(dailyAttendanceForm.getTrainingEndTimeHour());
 			trainingEndTime.setMinute(dailyAttendanceForm.getTrainingEndTimeMinute());
 
+			//備考欄が100文字以上の場合
 			if (dailyAttendanceForm.getNote().length() > 100) {
 				result.rejectValue("attendanceList[" + i + "].note", null);
 				hasNoteError = true;
 			}
 
+			//出勤分入力有りで出勤時未入力
 			if (dailyAttendanceForm.getTrainingStartTimeHour() == null
 					&& dailyAttendanceForm.getTrainingStartTimeMinute() != null) {
 				result.rejectValue("attendanceList[" + i + "].trainingStartTimeHour", null);
 				hasStartTimeError = true;
 			}
 
+			//出勤時入力有りで出勤分未入力
 			if (dailyAttendanceForm.getTrainingStartTimeHour() != null
 					&& dailyAttendanceForm.getTrainingStartTimeMinute() == null) {
 				result.rejectValue("attendanceList[" + i + "].trainingStartTimeMinute", null);
 				hasStartTimeError = true;
 			}
 
+			//退勤分入力有りで退勤時未入力
 			if (dailyAttendanceForm.getTrainingEndTimeHour() == null
 					&& dailyAttendanceForm.getTrainingEndTimeMinute() != null) {
 				result.rejectValue("attendanceList[" + i + "].trainingEndTimeHour", null);
 				hasEndTimeError = true;
 			}
 
+			//退勤時入力有りで退勤分未入力
 			if (dailyAttendanceForm.getTrainingEndTimeHour() != null
 					&& dailyAttendanceForm.getTrainingEndTimeMinute() == null) {
 				result.rejectValue("attendanceList[" + i + "].trainingEndTimeMinute", null);
 				hasEndTimeError = true;
 			}
 
+			//出勤時刻未入力で退勤時刻入力有り
 			if (trainingStartTime.isEmpty() && !trainingEndTime.isEmpty()) {
 				result.rejectValue("attendanceList[" + i + "].trainingStartTimeHour", null);
 				result.rejectValue("attendanceList[" + i + "].trainingStartTimeMinute", null);
 				hasPunchInEmptyError = true;
 			}
 
+			//出退勤時刻どちらも入力されている前提
 			if (!trainingStartTime.isEmpty() && !trainingEndTime.isEmpty()) {
-
-				TrainingTime trainingDuration = trainingEndTime.subtract(trainingStartTime);
+				
 				Integer BlankTimeMin = dailyAttendanceForm.getBlankTime();
 
+				//退勤時刻が出勤時刻よりも早い
 				if (trainingStartTime.getFormattedString().compareTo(trainingEndTime.getFormattedString()) > 0) {
 					result.rejectValue("attendanceList[" + i + "].trainingStartTimeHour", null);
 					result.rejectValue("attendanceList[" + i + "].trainingStartTimeMinute", null);
@@ -474,22 +484,23 @@ public class StudentAttendanceService {
 					result.reject(Constants.VALID_KEY_ATTENDANCE_TRAININGTIMERANGE, new Object[] { i }, null);
 				} else if (BlankTimeMin != null) {
 
+					//勤務時間（退勤時刻-出勤時刻）
+					TrainingTime trainingDuration = trainingEndTime.subtract(trainingStartTime);
+					
 					TrainingTime blankTime = attendanceUtil.calcBlankTime(dailyAttendanceForm.getBlankTime());
+					
+					//中抜け時間が勤務時間を超える
 					if (blankTime.getFormattedString().compareTo(trainingDuration.getFormattedString()) > 0) {
 						result.rejectValue("attendanceList[" + i + "].blankTime", null);
 						hasBlankTimeError = true;
 					}
-
 				}
-
 			}
 
 			i++;
 		}
 
-		if (hasNoteError)
-
-		{
+		if (hasNoteError){
 			result.reject(Constants.VALID_KEY_MAXLENGTH, new Object[] { "備考", "100" }, null);
 		}
 
