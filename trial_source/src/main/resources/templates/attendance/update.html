@@ -61,7 +61,7 @@
 								
 								<!-- 濱田紘苗子 - Task.26 -->
 								<td class="w70">
-									<select class="form-control" th:name="|attendanceList[${stat.index}].trainingStartTimeHour|">
+									<select class="form-control" th:name="|attendanceList[${stat.index}].trainingStartTimeHour|" th:classappend="${#fields.hasErrors('attendanceList[__${stat.index}__].trainingStartTimeHour')} ? 'errorInput' : ''">
 										<option th:each="trainingStartTimeHour : ${attendanceForm.hourTimes}"
 											th:value="${trainingStartTimeHour.value}" th:selected="${trainingStartTimeHour.key == dailyAttendanceForm.trainingStartTimeHour}">
 											[[${trainingStartTimeHour.value}]]
@@ -72,7 +72,7 @@
 								<td>:</td>
 								
 								<td class="w70">
-									<select class="form-control" th:name="|attendanceList[${stat.index}].trainingStartTimeMinute|">
+									<select class="form-control" th:name="|attendanceList[${stat.index}].trainingStartTimeMinute|" th:classappend="${#fields.hasErrors('attendanceList[__${stat.index}__].trainingStartTimeMinute')} ? 'errorInput' : ''">
 										<option th:each="trainingStartTimeMinute : ${attendanceForm.minuteTimes}"
 											th:value="${trainingStartTimeMinute.value}" th:selected="${trainingStartTimeMinute.key == dailyAttendanceForm.trainingStartTimeMinute}">
 											[[${trainingStartTimeMinute.value}]]
@@ -81,7 +81,7 @@
 								</td>
 								
 								<td class="w70">
-									<select class="form-control" th:name="|attendanceList[${stat.index}].trainingEndTimeHour|">
+									<select class="form-control" th:name="|attendanceList[${stat.index}].trainingEndTimeHour|"  th:classappend="${#fields.hasErrors('attendanceList[__${stat.index}__].trainingEndTimeHour')} ? 'errorInput' : ''">
 										<option th:each="trainingEndTimeHour : ${attendanceForm.hourTimes}"
 											th:value="${trainingEndTimeHour.value}" th:selected="${trainingEndTimeHour.key == dailyAttendanceForm.trainingEndTimeHour}">
 											[[${trainingEndTimeHour.value}]]
@@ -92,7 +92,7 @@
 								<td>:</td>
 								
 								<td class="w70">
-									<select class="form-control" th:name="|attendanceList[${stat.index}].trainingEndTimeMinute|">
+									<select class="form-control" th:name="|attendanceList[${stat.index}].trainingEndTimeMinute|"  th:classappend="${#fields.hasErrors('attendanceList[__${stat.index}__].trainingEndTimeMinute')} ? 'errorInput' : ''">
 										<option th:each="trainingEndTimeMinute : ${attendanceForm.minuteTimes}"
 											th:value="${trainingEndTimeMinute.value}" th:selected="${trainingEndTimeMinute.key == dailyAttendanceForm.trainingEndTimeMinute}">
 											[[${trainingEndTimeMinute.value}]]
@@ -101,7 +101,7 @@
 								</td>
 								<!-- 濱田紘苗子 - Task.26 ここまで-->
 								<td class="w80">
-									<select th:name="|attendanceList[${stat.index}].blankTime|" class="form-control">
+									<select th:name="|attendanceList[${stat.index}].blankTime|" class="form-control" th:classappend="${#fields.hasErrors('attendanceList[__${stat.index}__].blankTime')} ? 'errorInput' : ''">
 										<option th:each="blankTime : ${attendanceForm.blankTimes}" th:value="${blankTime.key}" th:inlne="text" class="form-control" 
 											th:selected="${blankTime.key == dailyAttendanceForm.blankTime}">[[${blankTime.value}]]</option>
 									</select>
@@ -122,7 +122,7 @@
 					<th:block th:if="${session.loginUserDto.role != '0001'}">
 						<input type="submit" value="戻る" name="indexCompany" class="btn btn-default" />
 					</th:block>
-					<input type="submit" value="更新" name="complete" class="btn btn-info" />
+					<input type="submit" value="更新" name="complete" class="btn btn-info" onclick="return" />
 				</div>
 
 			</form>
@@ -148,6 +148,13 @@
 			let trainingEndTimeMinute = document.getElementsByName("attendanceList[" + id + "].trainingEndTimeMinute");
 			trainingEndTimeMinute[0].selectedIndex = 1;
 		}
+		
+		//濱田紘苗子 - Task.27
+		var completeButton = document.getElementsByName("complete");
+		
+		completeButton[0].addEventListener('click', function(event){
+			if(!confirm("更新します。よろしいですか？")){event.preventDefault()};
+		});
 		
 	</script>
 </body>
