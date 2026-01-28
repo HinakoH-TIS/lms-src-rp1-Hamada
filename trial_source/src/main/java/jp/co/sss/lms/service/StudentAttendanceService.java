@@ -462,7 +462,7 @@ public class StudentAttendanceService {
 			}
 
 			//出勤時刻未入力で退勤時刻入力有り
-			if (trainingStartTime.isEmpty() && !trainingEndTime.isEmpty()) {
+			if (trainingStartTime.getHour() == null && trainingStartTime.getMinute() == null && !trainingEndTime.isEmpty()) {
 				result.rejectValue("attendanceList[" + i + "].trainingStartTimeHour", null);
 				result.rejectValue("attendanceList[" + i + "].trainingStartTimeMinute", null);
 				hasPunchInEmptyError = true;
