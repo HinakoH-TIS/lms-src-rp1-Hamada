@@ -428,7 +428,7 @@ public class StudentAttendanceService {
 			trainingEndTime.setMinute(dailyAttendanceForm.getTrainingEndTimeMinute());
 
 			//備考欄が100文字以上の場合
-			if (dailyAttendanceForm.getNote().length() > 100) {
+			if (dailyAttendanceForm.getNote().length() > Constants.NOTE_MAX_CHECK) {
 				result.rejectValue("attendanceList[" + i + "].note", null);
 				hasNoteError = true;
 			}
