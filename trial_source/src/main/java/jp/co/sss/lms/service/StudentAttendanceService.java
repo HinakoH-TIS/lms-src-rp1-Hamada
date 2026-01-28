@@ -489,7 +489,7 @@ public class StudentAttendanceService {
 					
 					TrainingTime blankTime = attendanceUtil.calcBlankTime(dailyAttendanceForm.getBlankTime());
 					
-					//中抜け時間が勤務時間を超える
+					//中抜け時間が勤務時間を超えるとき
 					if (blankTime.getFormattedString().compareTo(trainingDuration.getFormattedString()) > 0) {
 						result.rejectValue("attendanceList[" + i + "].blankTime", null);
 						hasBlankTimeError = true;
